@@ -1,5 +1,13 @@
+const jwt = require('jwt-simple');
 const User = require('../models/user');
 const config = require('../keys/config');
+
+// generate jwt token
+function tokenizer(user) {
+  const timestamp = new Date().getTime();
+  return jwt.encode({ sub: user.id, iat:timestamp }, config.jwtSecret);
+}
+
 
 exports.register = (req, res, next) => {
   // read registration request
@@ -7,7 +15,7 @@ exports.register = (req, res, next) => {
   const password = req.body.password;
   const passphrase = req.body.passphrase;
 
-  if (!username || !password || !passphrase || !name || !email) {
+  if (!username || !password || !passphrase) {
     return res.status(422).send({ error: 'partial / incomplete form'});
   }
 
@@ -43,8 +51,7 @@ exports.register = (req, res, next) => {
     if (err) { return next(err); }
 
     // respond to request comfing user creation
-    // respond to request 
-  res.send({ succes: true });
+    res.send({ token: tokenizer(user) });
   });
 
     

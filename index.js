@@ -14,4 +14,4 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000; 
 // in order for express to listen you have to call the listen method
-app.listen(8080);
+app.listen(PORT);

@@ -2,12 +2,22 @@ const jwt = require('jwt-simple');
 const User = require('../models/user');
 const config = require('../keys/config');
 
-// generate jwt token
+// generate jwt token (payload)
 function tokenizer(user) {
   const timestamp = new Date().getTime();
   return jwt.encode({ sub: user.id, iat:timestamp }, config.jwtSecret);
 }
 
+//
+
+exports.signin = function(req, res, next) {
+  // on succesful done callback from passport, it supplies req.user
+  res.send({ token: tokenizer(req.user) });
+  
+  // user is already authorized
+  // give token
+
+}
 
 exports.register = (req, res, next) => {
   // read registration request
@@ -54,6 +64,4 @@ exports.register = (req, res, next) => {
     res.send({ token: tokenizer(user) });
   });
 
-    
-  
 }

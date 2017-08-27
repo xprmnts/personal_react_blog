@@ -7,7 +7,7 @@ const express = require('express');
 const app = express();
 
 
-// temporary route to handle root
+// temporary route to handle get request to the root route
 app.get('/', (req, res) => {
   res.send({ hello: 'world!' });
 });

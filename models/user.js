@@ -10,7 +10,6 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   username: { type: String, unique: true, lowercase: true},
   password: String,
-  name: String,
   admin: Boolean
 });
 

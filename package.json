@@ -1,0 +1,22 @@
+{
+  "name": "xprmnts_site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xprmnts/personal_react_blog.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xprmnts/personal_react_blog/issues"
+  },
+  "homepage": "https://github.com/xprmnts/personal_react_blog#readme",
+  "dependencies": {
+    "express": "^4.15.4"
+  }
+}

@@ -22,8 +22,8 @@ const localLogin = new LocalStrategy(function(username, password, done) {
 
       return done(null, user);
     });
-  // otherwise, call done w/ flase
-  });
+    // otherwise, call done w/ flase
+    });
   });
 
   

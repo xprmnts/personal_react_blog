@@ -10,7 +10,7 @@ function tokenizer(user) {
 
 //
 
-exports.signin = function(req, res, next) {
+exports.signin = (req, res, next) => {
   // on succesful done callback from passport, it supplies req.user
   res.send({ token: tokenizer(req.user) });
   
@@ -30,7 +30,6 @@ exports.register = (req, res, next) => {
   }
 
   // check if passphrase is correct
-  console.log(passphrase, config.adminKey);
   if (passphrase !== config.adminKey && passphrase !== config.friendKey) {
     //return error
     return res.status(422).send({ error: 'you shall not pass!'});

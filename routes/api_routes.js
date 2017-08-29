@@ -1,27 +1,22 @@
 // import different route controllers
-const Submission = require('../controllers/submission');
+const PostOps = require("../controllers/submission");
 // TODO: import express/router
-const express = require('express');
+const express = require("express");
 // user router to handle moduler app routing
 const router = express.Router();
 
-
 // middleware that is specific to this router
-router.use(function timeLog (req, res, next) {
-  console.log('Time: ', Date.now())
-  next()
-})
+router.use(function timeLog(req, res, next) {
+  next();
+});
 
-// TODO: create route to get items by /tag/category/nothing
+// route handler for post creation
+router.post("/post", PostOps.submitPost);
 
-// TODO: create route to get post by uri/slug
+// route handler for post updates
+router.put("/post/:id", PostOps.updatePost);
 
-// TODO: create route to create posts
-router.post('/post', Submission.submitItem);
+// route handler for post deletions
+router.delete("/post/:id", PostOps.deletePost);
 
 module.exports = router;
-
-// TODO: create route to update posts
-
-// TODO: create route to delete posts
-

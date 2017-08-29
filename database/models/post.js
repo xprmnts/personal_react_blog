@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const settings = require("../keys/settings");
+const settings = require("../../keys/settings");
 
 const PostSchema = new Schema({
   title: {
@@ -8,6 +8,10 @@ const PostSchema = new Schema({
     required: [true, "require title"]
   },
   tags: [],
+  createdOn: {
+    type: Date,
+    required: [true, "created date is required"]
+  },
   publishedOn: {
     type: Date,
     default: null

@@ -1,5 +1,5 @@
 // import different route controllers
-const PostOps = require("../controllers/submission");
+const PostOps = require("../database/queries/queries");
 // TODO: import express/router
 const express = require("express");
 // user router to handle moduler app routing
@@ -9,6 +9,8 @@ const router = express.Router();
 router.use(function timeLog(req, res, next) {
   next();
 });
+// getting all posts
+router.get("/post", PostOps.searchPosts);
 
 // route handler for post creation
 router.post("/post", PostOps.submitPost);

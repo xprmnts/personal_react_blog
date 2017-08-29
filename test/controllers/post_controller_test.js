@@ -15,9 +15,8 @@ describe("Post Submit controller", () => {
         .post("/api/post")
         .send({
           title: "Example Post One",
-          tags: "tag1, tag2, tag3",
+          tags: "tag1,tag2,tag3",
           category: "notes",
-          uri: "test",
           draft: true,
           slug: "this-is-my-slug",
           content: "Lorem ipsum dolor"
@@ -30,15 +29,15 @@ describe("Post Submit controller", () => {
         });
     });
   });
-
   /* Updating draft & publishing
   ** 
   */
   it("Put to /api/post/id can unpublish a record", done => {
     const post = new Post({
       title: "Example Post One",
-      tags: "tag1, tag2, tag3",
+      tags: "tag1,tag2,tag3",
       category: "notes",
+      createdOn: "2017-08-29 17:07:56.388Z",
       draft: true,
       slug: "super-awesome-slug",
       content: "Lorem ipsum dolor"
@@ -48,7 +47,7 @@ describe("Post Submit controller", () => {
         .put(`/api/post/${post._id}`)
         .send({
           title: "Example Post One",
-          tags: "tag1, tag2, tag3",
+          tags: "tag1,tag2,tag3",
           category: "notes",
           draft: false,
           slug: "super-awesome-slug",
@@ -72,8 +71,9 @@ describe("Post Submit controller", () => {
   it("Delete to /api/post/id can delete a record", done => {
     const post = new Post({
       title: "Example Post One",
-      tags: "tag1, tag2, tag3",
+      tags: "tag1,tag2,tag3",
       category: "notes",
+      createdOn: "2017-08-29 17:07:56.388Z",
       draft: true,
       publishedOn: null,
       slug: "super-awesome-slug",
@@ -95,9 +95,10 @@ describe("Post Submit controller", () => {
   it("Put to /api/post/id can unpublish a record", done => {
     const post = new Post({
       title: "Example Post One",
-      tags: "tag1, tag2, tag3",
+      tags: "tag1,tag2,tag3",
       category: "notes",
       draft: false,
+      createdOn: "2017-08-29 17:07:56.388Z",
       publishedOn: "2017-08-29 17:07:56.388Z",
       slug: "super-awesome-slug",
       content: "Lorem ipsum dolor"
@@ -107,7 +108,7 @@ describe("Post Submit controller", () => {
         .put(`/api/post/${post._id}`)
         .send({
           title: "Example Post One",
-          tags: "tag1, tag2, tag3",
+          tags: "tag1,tag2,tag3",
           category: "notes",
           draft: true,
           publishedOn: "2017-08-29 17:07:56.388Z",

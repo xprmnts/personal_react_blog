@@ -8,6 +8,9 @@ exports.submitPost = (req, res, next) => {
   const postProps = req.body;
   // convert tags to array
   postProps.tags = req.body.tags.split(",");
+  // set created date
+  postProps.createdOn = Date.now();
+
   // set published date if needed
   postProps.publishedOn = postProps.draft ? null : Date.now();
 
@@ -57,4 +60,36 @@ exports.deletePost = (req, res, next) => {
   Post.findByIdAndRemove({ _id: postId })
     .then(post => res.status(204).send(post))
     .catch(next);
+};
+
+/**
+ * Searches through the Post collection
+ * based on criteria object {category , tag , draft}, sortOn
+ * returns an array of posts
+ */
+
+exports.searchPosts = (req, res, next) => {
+  Post.find(buildQuery(req.query)).then(results => {
+    res.send(results);
+  });
+};
+
+const buildQuery = criteria => {
+  const query = {};
+
+  if (criteria.category) {
+    query.category = {
+      $in: criteria.category
+    };
+  }
+
+  if (criteria.tag) {
+    query.tags = { $elemMatch: { $eq: criteria.tag } };
+  }
+
+  if (criteria.draft) {
+    query.draft = { $eq: criteria.draft };
+  }
+
+  return query;
 };

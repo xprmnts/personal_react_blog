@@ -69,7 +69,7 @@ exports.deletePost = (req, res, next) => {
  */
 
 exports.searchPosts = (req, res, next) => {
-  Post.find(buildQuery(req.query)).then(results => {
+  Post.find(buildQuery(req.query)).sort({ createdOn: 1 }).then(results => {
     res.send(results);
   });
 };

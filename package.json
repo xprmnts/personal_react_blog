@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test nodemon --exec 'mocha --recursive -R min'",
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "server": "nodemon index.js",
+    "start": "node index.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -21,7 +23,10 @@
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.2",
+    "concurrently": "^3.5.0",
+    "cors": "^2.8.4",
     "express": "^4.15.4",
+    "jquery": "^3.2.1",
     "jwt-simple": "^0.5.1",
     "mocha": "^3.5.0",
     "mongoose": "^4.11.8",

@@ -23,8 +23,9 @@ exports.register = (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
   const passphrase = req.body.passphrase;
+  const email = req.body.email;
 
-  if (!username || !password || !passphrase) {
+  if (!username || !password || !passphrase || !email) {
     return res.status(422).send({ error: "partial / incomplete form" });
   }
 
@@ -52,6 +53,7 @@ exports.register = (req, res, next) => {
   const user = new User({
     username: username,
     password: password,
+    email: email,
     admin: passphrase === config.adminKey ? true : false
   });
 

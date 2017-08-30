@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const config = require("./keys/config");
-
+const cors = require("cors");
 //
 const auth_routes = require("./routes/auth_routes");
 const api_routes = require("./routes/api_routes");
@@ -20,6 +20,10 @@ const app = (module.exports = express());
 
 // express middleware logging framework - logs requests on the server
 app.use(morgan("combined"));
+
+// express middle ware to handle cors requests
+// TODO: set up restrictions on cors to allow reqs from specific hosts
+app.use(cors());
 
 // express middle ware to be parse request body as json
 app.use(bodyParser.json({ type: "*/*" }));

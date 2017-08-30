@@ -17,7 +17,7 @@ const requireAuth = passport.authenticate("jwt", { session: false });
 const requireSignin = passport.authenticate("local", { session: false });
 
 router.get("/", requireAuth, function(req, res) {
-  res.send({ hi: "there" });
+  res.send({ message: "super secret" });
 });
 router.post("/register", Authentication.register);
 router.post("/signin", requireSignin, Authentication.signin);

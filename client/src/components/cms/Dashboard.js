@@ -1,9 +1,18 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import * as actions from "../../actions";
 
 class Dashboard extends Component {
+  componentWillMount() {
+    this.props.fetchMessage();
+  }
   render() {
-    return <div>"Here's the Dashboard"</div>;
+    return <div>{this.props.message}</div>;
   }
 }
 
-export default Dashboard;
+function mapStateToProps(state) {
+  return { message: state.auth.message };
+}
+
+export default connect(mapStateToProps, actions)(Dashboard);

@@ -18,7 +18,7 @@ exports.initializePost = (req, res, next) => {
       return next(err);
     }
     // respond to request comfing user creation
-    res.send(post);
+    res.send(post._id);
   });
 };
 

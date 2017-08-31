@@ -46,7 +46,7 @@ exports.submitPost = (req, res, next) => {
       return next(err);
     }
     // respond to request comfing user creation
-    res.send(post);
+    res.status(200).send(post._id);
   });
 };
 

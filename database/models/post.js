@@ -17,7 +17,8 @@ const PostSchema = new Schema({
   },
   category: {
     type: String,
-    enum: settings.categories
+    enum: settings.categories,
+    default: "notes"
   },
   slug: {
     type: String,

@@ -12,8 +12,8 @@ router.use(function timeLog(req, res, next) {
 // getting all posts
 router.get("/post", PostOps.searchPosts);
 
-// route handler for post creation
-router.post("/post", PostOps.submitPost);
+// route handler for post initialization
+router.post("/post", PostOps.initializePost);
 
 // route handler for post updates
 router.put("/post/:id", PostOps.updatePost);

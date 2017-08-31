@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AUTH_USER, AUTH_ERROR, UNAUTH_USER, FETCH_MESSAGE } from "./types";
+import { AUTH_USER, AUTH_ERROR, UNAUTH_USER, INITIALIZE_POST } from "./types";
 const ROOT_URL = "http://localhost:8080"; //TODO: abstract root to config keys
 
 export function signinUser({ username, password }, callback) {
@@ -73,19 +73,37 @@ export function registerUser(
   };
 }
 
-export function fetchMessage() {
+export function initializePost() {
+  console.log("initializing Post");
+  axios
+    .post(`${ROOT_URL}/api/post`)
+    .then(response => {
+      console.log(response);
+    })
+    .catch(response => {
+      console.log(response);
+    });
+
   return function(dispatch) {
-    axios
-      .get(`${ROOT_URL}/auth/`, {
-        headers: {
-          authorization: localStorage.getItem("token")
-        }
-      })
-      .then(response => {
-        dispatch({
-          type: FETCH_MESSAGE,
-          payload: response.data.message
-        });
-      });
+    dispatch({
+      type: INITIALIZE_POST
+    });
   };
 }
+
+// export function fetchMessage() {
+//   return function(dispatch) {
+//     axios
+//       .get(`${ROOT_URL}/auth/`, {
+//         headers: {
+//           authorization: localStorage.getItem("token")
+//         }
+//       })
+//       .then(response => {
+//         dispatch({
+//           type: FETCH_MESSAGE,
+//           payload: response.data.message
+//         });
+//       });
+//   };
+// }

@@ -1,6 +1,28 @@
 const Post = require("../models/post");
 
 /*
+** Create's a default post stub
+*/
+exports.initializePost = (req, res, next) => {
+  let postProps = {};
+  // set created date
+  postProps.createdOn = Date.now();
+
+  // if all is well create an item
+  const post = new Post(postProps);
+
+  // commit user to database
+  post.save(err => {
+    // if there was a db op error
+    if (err) {
+      return next(err);
+    }
+    // respond to request comfing user creation
+    res.send(post);
+  });
+};
+
+/*
 ** Takes incoming body and creates new post
 */
 exports.submitPost = (req, res, next) => {
@@ -69,9 +91,11 @@ exports.deletePost = (req, res, next) => {
  */
 
 exports.searchPosts = (req, res, next) => {
-  Post.find(buildQuery(req.query)).sort({ createdOn: 1 }).then(results => {
-    res.send(results);
-  });
+  Post.find(buildQuery(req.query))
+    .sort({ createdOn: 1 })
+    .then(results => {
+      res.send(results);
+    });
 };
 
 const buildQuery = criteria => {

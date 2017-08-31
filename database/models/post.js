@@ -5,12 +5,11 @@ const settings = require("../../keys/settings");
 const PostSchema = new Schema({
   title: {
     type: String,
-    required: [true, "require title"]
+    default: "Untitled"
   },
   tags: [],
   createdOn: {
-    type: Date,
-    required: [true, "created date is required"]
+    type: Date
   },
   publishedOn: {
     type: Date,
@@ -18,8 +17,7 @@ const PostSchema = new Schema({
   },
   category: {
     type: String,
-    enum: settings.categories,
-    required: [true, "require category"]
+    enum: settings.categories
   },
   slug: {
     type: String,
@@ -29,7 +27,10 @@ const PostSchema = new Schema({
     type: Boolean,
     default: true
   },
-  content: String
+  content: {
+    type: String,
+    default: "Write something, anything..."
+  }
 });
 
 const Post = mongoose.model("post", PostSchema);

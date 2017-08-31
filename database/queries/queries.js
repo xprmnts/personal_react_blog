@@ -24,7 +24,7 @@ exports.submitPost = (req, res, next) => {
       return next(err);
     }
     // respond to request comfing user creation
-    res.send(post);
+    res.status(200).send(post._id);
   });
 };
 
@@ -69,9 +69,11 @@ exports.deletePost = (req, res, next) => {
  */
 
 exports.searchPosts = (req, res, next) => {
-  Post.find(buildQuery(req.query)).sort({ createdOn: 1 }).then(results => {
-    res.send(results);
-  });
+  Post.find(buildQuery(req.query))
+    .sort({ createdOn: 1 })
+    .then(results => {
+      res.send(results);
+    });
 };
 
 const buildQuery = criteria => {

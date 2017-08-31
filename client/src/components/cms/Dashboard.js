@@ -3,11 +3,8 @@ import { connect } from "react-redux";
 import * as actions from "../../actions";
 
 class Dashboard extends Component {
-  componentWillMount() {
-    this.props.fetchMessage();
-  }
   render() {
-    return <div>{this.props.message}</div>;
+    return <button>Create</button>;
   }
 }
 

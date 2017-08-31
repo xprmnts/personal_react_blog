@@ -5,12 +5,11 @@ const settings = require("../../keys/settings");
 const PostSchema = new Schema({
   title: {
     type: String,
-    required: [true, "require title"]
+    default: "Untitled"
   },
   tags: [],
   createdOn: {
-    type: Date,
-    required: [true, "created date is required"]
+    type: Date
   },
   publishedOn: {
     type: Date,
@@ -19,7 +18,7 @@ const PostSchema = new Schema({
   category: {
     type: String,
     enum: settings.categories,
-    required: [true, "require category"]
+    default: "notes"
   },
   slug: {
     type: String,

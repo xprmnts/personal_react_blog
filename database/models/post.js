@@ -21,16 +21,20 @@ const PostSchema = new Schema({
     default: "notes"
   },
   slug: {
-    type: String,
-    default: null
+    type: String
   },
   draft: {
     type: Boolean,
     default: true
   },
-  content: {
-    type: String,
-    default: null
+  raw: {
+    type: String
+  },
+  html: {
+    type: String
+  },
+  toc: {
+    type: String
   }
 });
 

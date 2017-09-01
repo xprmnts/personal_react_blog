@@ -9,19 +9,33 @@ const router = express.Router();
 router.use(function timeLog(req, res, next) {
   next();
 });
-// getting all posts
-router.get("/post", PostOps.search);
 
-// getting all posts
-router.get("/post/:id", PostOps.getOne);
+/******************************************************************************
+** --------------------- VISITOR/COMMON API ROUTES-----------------------------
+******************************************************************************/
 
-// route handler for post creation
-router.post("/post", PostOps.create);
+// get posts for rendering on homepage, category or tag pages + admin dashboard
+router.get("/api/post", PostOps.search);
 
-// route handler for post updates
-router.put("/post/:id", PostOps.update);
+// get a single post for viewing only
+router.get("/api/post/:slug", PostOps.getViewablePost);
 
-// route handler for post deletions
-router.delete("/post/:id", PostOps.delete);
+/******************************************************************************
+** --------------------- ADMIN API ROUTES-------------------------------------
+******************************************************************************/
+
+/********TODO: ENSURE the below api routes all require authentication ********/
+
+// create a new post
+router.post("/api/post", PostOps.create);
+
+// get editable post for loading into admin workspace/editor
+router.get("/api/post/:id", PostOps.getEditablePost);
+
+// update a post, save a post or publish a post
+router.put("/api/post/:id", PostOps.update);
+
+// delete a post
+router.delete("/api/post/:id", PostOps.update);
 
 module.exports = router;

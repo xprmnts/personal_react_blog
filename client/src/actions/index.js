@@ -4,6 +4,9 @@ import {
   AUTH_ERROR,
   UNAUTH_USER,
   CREATE_POST,
+  INIT_NEW_EDITOR,
+  GET_OLD_EDITOR,
+  UPDATE_EDITOR_STATE,
   POST_ERROR
 } from "./types";
 const ROOT_URL = "http://localhost:8080"; //TODO: abstract root to config keys
@@ -91,14 +94,59 @@ export function createPost(callback) {
           type: CREATE_POST,
           payload: response.data
         });
+
         // redirect to /cms
-        callback(true);
+        callback(response.data._id);
       })
       .catch(() => {
         // if fail set state to unauth
         dispatch(postError("Error Creating Post"));
         // show errror
         callback(false);
+      });
+  };
+}
+
+export function initNewEditor() {
+  return function(dispatch) {
+    dispatch({ type: INIT_NEW_EDITOR });
+  };
+}
+
+export function getOldEditor(id) {
+  return function(dispatch) {
+    axios
+      .get(`${ROOT_URL}/api/post/${id}`)
+      .then(response => {
+        dispatch({
+          type: GET_OLD_EDITOR,
+          payload: response.data
+        });
+      })
+      .catch(response => {
+        console.log(response.data);
+      });
+  };
+}
+
+export function updateEditorState(editorState) {
+  return function(dispatch) {
+    dispatch({
+      type: UPDATE_EDITOR_STATE,
+      payload: editorState
+    });
+  };
+}
+
+export function saveEditorContent(id, content) {
+  return function(dispatch) {
+    axios
+      .put(`${ROOT_URL}/api/post/${id}`, { content })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(response => {
+        console.log(response.data);
       });
   };
 }

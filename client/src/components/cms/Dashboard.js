@@ -4,14 +4,16 @@ import * as actions from "../../actions";
 
 class Dashboard extends Component {
   onCreate() {
-    this.props.createPost(post => {
-      if (post._id) {
-        this.props.history.push(`/cms/editor/${post._id}`);
-        console.log(this.state);
+    this.props.createPost(() => {
+      console.log("Post Created");
+      this.props.initNewEditor();
+      const { _id } = this.props.workspace;
+      if (_id) {
+        this.props.history.push(`/cms/compose/${_id}`);
       }
     });
   }
-
+  onEdit() {}
   render() {
     return (
       <div>
@@ -27,7 +29,9 @@ class Dashboard extends Component {
 }
 
 function mapStateToProps(state) {
-  return { initialized: state.post.initialized };
+  return {
+    workspace: state.post.workspace
+  };
 }
 
 export default connect(mapStateToProps, actions)(Dashboard);

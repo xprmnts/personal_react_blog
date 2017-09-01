@@ -60,14 +60,29 @@ exports.update = (req, res, next) => {
   const postProps = req.body;
 
   // convert tags to array
-  postProps.tags = postProps.tags ? req.body.tags.split(",") : pass;
+  postProps.tags = postProps.tags ? req.body.tags.split(",") : [];
   // set published date if needed
   postProps.publishedOn = postProps.draft ? null : Date.now();
 
   // find by Id and Update Post
   Post.findByIdAndUpdate({ _id: postId }, postProps)
-    .then(() => Post.findById({ _id: id }))
-    .then(post => res.send(post))
+    .then(() => Post.findById({ _id: postId }))
+    .then(post => res.send({ message: "saved" }))
+    .catch(next);
+};
+
+/*
+** Takes incoming body and updates existing post
+*/
+exports.getOne = (req, res, next) => {
+  // get post id
+  const postId = req.params.id;
+
+  // find by Id and Delete Post
+  Post.findOne({ _id: postId })
+    .then(post => {
+      res.status(200).send(post.content);
+    })
     .catch(next);
 };
 

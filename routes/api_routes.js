@@ -12,6 +12,9 @@ router.use(function timeLog(req, res, next) {
 // getting all posts
 router.get("/post", PostOps.search);
 
+// getting all posts
+router.get("/post/:id", PostOps.getOne);
+
 // route handler for post creation
 router.post("/post", PostOps.create);
 

@@ -7,7 +7,7 @@ import Signin from "./auth/Signin";
 import Signout from "./auth/Signout";
 import Register from "./auth/Register";
 import Dashboard from "./cms/Dashboard";
-// import Composer from "./cms/editor/Editor";
+import Composer from "./cms/editor/Composer";
 // <Route exact path="/cms/editor" component={Composer} />
 const Landing = () => <h2>Front Page</h2>;
 
@@ -17,14 +17,17 @@ export default class App extends Component {
       <div>
         <BrowserRouter>
           <div>
-            <Switch>
-              <Header />
-              <Route exact path="/" component={Landing} />
-              <Route exact path="/signin" component={Signin} />
-              <Route exact path="/signout" component={Signout} />
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/cms" component={RequireAuth(Dashboard)} />
-            </Switch>
+            <Header />
+            <Route exact path="/" component={Landing} />
+            <Route exact path="/signin" component={Signin} />
+            <Route exact path="/signout" component={Signout} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/cms" component={RequireAuth(Dashboard)} />
+            <Route
+              exact
+              path="/cms/compose/:id"
+              component={RequireAuth(Composer)}
+            />
           </div>
         </BrowserRouter>
       </div>

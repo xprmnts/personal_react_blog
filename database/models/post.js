@@ -30,7 +30,7 @@ const PostSchema = new Schema({
   },
   content: {
     type: String,
-    default: "{}"
+    default: null
   }
 });
 

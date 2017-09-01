@@ -3,7 +3,7 @@ import {
   AUTH_USER,
   AUTH_ERROR,
   UNAUTH_USER,
-  INITIALIZE_POST,
+  CREATE_POST,
   POST_ERROR
 } from "./types";
 const ROOT_URL = "http://localhost:8080"; //TODO: abstract root to config keys
@@ -34,13 +34,6 @@ export function signinUser({ username, password }, callback) {
 export function authError(error) {
   return {
     type: AUTH_ERROR,
-    payload: error
-  };
-}
-
-export function postError(error) {
-  return {
-    type: POST_ERROR,
     payload: error
   };
 }
@@ -86,37 +79,33 @@ export function registerUser(
   };
 }
 
-export function initializePost(callback) {
-  console.log("initializing Post");
-  axios
-    .post(`${ROOT_URL}/api/post`)
-    .then(response => {
-      callback(response.data);
-    })
-    .catch(response => {
-      console.log(response);
-    });
-
+export function createPost(callback) {
+  // return a function from our action creator
   return function(dispatch) {
-    dispatch({
-      type: INITIALIZE_POST
-    });
+    // submit username/password to server
+    axios
+      .post(`${ROOT_URL}/api/post`)
+      .then(response => {
+        // if success store payload(the id of the post)
+        dispatch({
+          type: CREATE_POST,
+          payload: response.data
+        });
+        // redirect to /cms
+        callback(true);
+      })
+      .catch(() => {
+        // if fail set state to unauth
+        dispatch(postError("Error Creating Post"));
+        // show errror
+        callback(false);
+      });
   };
 }
 
-// export function fetchMessage() {
-//   return function(dispatch) {
-//     axios
-//       .get(`${ROOT_URL}/auth/`, {
-//         headers: {
-//           authorization: localStorage.getItem("token")
-//         }
-//       })
-//       .then(response => {
-//         dispatch({
-//           type: FETCH_MESSAGE,
-//           payload: response.data.message
-//         });
-//       });
-//   };
-// }
+export function postError(error) {
+  return {
+    type: POST_ERROR,
+    payload: error
+  };
+}

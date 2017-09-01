@@ -4,9 +4,10 @@ import * as actions from "../../actions";
 
 class Dashboard extends Component {
   onCreate() {
-    this.props.initializePost(id => {
-      if (id) {
-        this.props.history.push(`/cms/editor/${id}`);
+    this.props.createPost(post => {
+      if (post._id) {
+        this.props.history.push(`/cms/editor/${post._id}`);
+        console.log(this.state);
       }
     });
   }

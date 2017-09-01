@@ -10,15 +10,15 @@ router.use(function timeLog(req, res, next) {
   next();
 });
 // getting all posts
-router.get("/post", PostOps.searchPosts);
+router.get("/post", PostOps.search);
 
-// route handler for post initialization
-router.post("/post", PostOps.initializePost);
+// route handler for post creation
+router.post("/post", PostOps.create);
 
 // route handler for post updates
-router.put("/post/:id", PostOps.updatePost);
+router.put("/post/:id", PostOps.update);
 
 // route handler for post deletions
-router.delete("/post/:id", PostOps.deletePost);
+router.delete("/post/:id", PostOps.delete);
 
 module.exports = router;

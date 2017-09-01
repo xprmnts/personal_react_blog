@@ -3,7 +3,7 @@ const Post = require("../models/post");
 /*
 ** Create's a default post stub
 */
-exports.initializePost = (req, res, next) => {
+exports.create = (req, res, next) => {
   let postProps = {};
   // set created date
   postProps.createdOn = Date.now();
@@ -18,14 +18,14 @@ exports.initializePost = (req, res, next) => {
       return next(err);
     }
     // respond to request comfing user creation
-    res.send(post._id);
+    res.send(post);
   });
 };
 
 /*
 ** Takes incoming body and creates new post
 */
-exports.submitPost = (req, res, next) => {
+exports.submit = (req, res, next) => {
   // get request.body
   const postProps = req.body;
   // convert tags to array
@@ -53,7 +53,7 @@ exports.submitPost = (req, res, next) => {
 /*
 ** Takes incoming body and updates existing post
 */
-exports.updatePost = (req, res, next) => {
+exports.update = (req, res, next) => {
   // get post id
   const postId = req.params.id;
   // get request.body
@@ -74,7 +74,7 @@ exports.updatePost = (req, res, next) => {
 /*
 ** Takes incoming body and updates existing post
 */
-exports.deletePost = (req, res, next) => {
+exports.delete = (req, res, next) => {
   // get post id
   const postId = req.params.id;
 
@@ -90,7 +90,7 @@ exports.deletePost = (req, res, next) => {
  * returns an array of posts
  */
 
-exports.searchPosts = (req, res, next) => {
+exports.search = (req, res, next) => {
   Post.find(buildQuery(req.query))
     .sort({ createdOn: 1 })
     .then(results => {

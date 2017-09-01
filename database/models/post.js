@@ -30,7 +30,7 @@ const PostSchema = new Schema({
   },
   content: {
     type: String,
-    default: "Write something, anything..."
+    default: "{}"
   }
 });
 

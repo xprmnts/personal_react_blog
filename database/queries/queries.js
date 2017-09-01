@@ -1,58 +1,159 @@
+/* There are two major usecases to query the databse:
+** 1) To render the visitor viewspace
+** 2) To render the admin workspace
+** This document contains queries pertaining to both.
+** ----------------------------------------------------------------------------
+*/
 const Post = require("../models/post");
+const helper = require("./query_builder");
 
-/*
-** Create's a default post stub
-*/
+/******************************************************************************
+** ---------------------COMMONN VISITOR & ADMIN QUERIES------------------------
+******************************************************************************/
+
+/*************************RENDERING A LIST OF POSTS***************************/
+
+// Handles requests of type GET /api/post & GET /api/post?tag=""cat=""
+// Returns array of post items containing:
+// title, tags, createdOn, publishedOn, category, slug, draft
+// This query uses buildQuery helper function to resolve the query restrictions
+exports.search = (req, res, next) => {
+  Post.find(helper.build(req.query), {
+    title: 1,
+    tags: 1,
+    createdOn: 1,
+    publishedOn: 1,
+    category: 1,
+    slug: 1,
+    draft: 1
+  })
+    .sort({ createdOn: 1 })
+    .then(results => {
+      res.send(results);
+    })
+    .catch(err => {
+      next(err);
+    });
+};
+
+/*************************VIEWING A SIGNLE POST*******************************/
+
+// This query handles GET/api/post/slug type requests
+// Returns one post, everything except the raw editable data
+// TODO: Ensure request fails if post is in draft mode
+exports.getViewablePost = (req, res, next) => {
+  const { slug } = req.params;
+
+  Post.findOne(
+    { slug: slug },
+    {
+      title: 1,
+      tags: 1,
+      createdOn: 1,
+      publishedOn: 1,
+      category: 1,
+      slug: 1,
+      draft: 1,
+      html: 1,
+      toc: 1
+    }
+  )
+    .then(post => {
+      res.send(post);
+    })
+    .catch(err => {
+      next(err);
+    });
+};
+
+/******************************************************************************
+** --------------------------ADMIN WORKSPACE QUERIES---------------------------
+******************************************************************************/
+
+/*************************EDITING A SIGNLE POST*******************************/
+
+// This query handles GET/api/post/slug type requests
+// Returns one post, everything except the raw editable data
+// TODO: Ensure request fails if post is in draft mode
+exports.getEditablePost = (req, res, next) => {
+  const { id } = req.params;
+
+  Post.findOne(
+    { _id: id },
+    {
+      title: 1,
+      tags: 1,
+      createdOn: 1,
+      publishedOn: 1,
+      category: 1,
+      slug: 1,
+      draft: 1,
+      raw: 1
+    }
+  )
+    .then(post => {
+      res.send(post);
+    })
+    .catch(err => {
+      next(err);
+    });
+};
+
+/*************************PREVIEWING A SIGNLE POST****************************/
+
+// This query handles GET/api/post/id type requests
+// Returns one post, everything except the raw editable data/
+// TODO: Ensure succesful retrieval only for admins should (i.e. authenticated)
+exports.getPostPreview = (req, res, next) => {
+  const { id } = req.params;
+
+  Post.findOne(
+    { _id: id },
+    {
+      title: 1,
+      tags: 1,
+      createdOn: 1,
+      publishedOn: 1,
+      category: 1,
+      slug: 1,
+      draft: 1,
+      html: 1,
+      toc: 1
+    }
+  )
+    .then(post => {
+      res.send(post);
+    })
+    .catch(err => {
+      next(err);
+    });
+};
+
+/****************************CREATING A NEW POST******************************/
+// Handles POST /api/post requests with NO body, returns post
+// The only value that needs to be set on creation is the createdOn date
+// Everything else can get updated later
+
 exports.create = (req, res, next) => {
-  let postProps = {};
   // set created date
-  postProps.createdOn = Date.now();
+  const createdOn = Date.now();
 
   // if all is well create an item
-  const post = new Post(postProps);
+  const post = new Post({ createdOn: createdOn });
 
   // commit user to database
-  post.save(err => {
-    // if there was a db op error
-    if (err) {
-      return next(err);
-    }
-    // respond to request comfing user creation
-    res.send(post);
-  });
+  post
+    .save()
+    .then(() => res.send(post))
+    .catch(err => {
+      next(err);
+    });
 };
 
-/*
-** Takes incoming body and creates new post
-*/
-exports.submit = (req, res, next) => {
-  // get request.body
-  const postProps = req.body;
-  // convert tags to array
-  postProps.tags = req.body.tags.split(",");
-  // set created date
-  postProps.createdOn = Date.now();
+/****************************UPDATING/SAVING A POST******************************/
+// Handles PUT /api/post/:id for saving, updating and publishing a post - returns
+// success message
 
-  // set published date if needed
-  postProps.publishedOn = postProps.draft ? null : Date.now();
-
-  // if all is well create an item
-  const post = new Post(postProps);
-
-  // commit user to database
-  post.save(err => {
-    // if there was a db op error
-    if (err) {
-      return next(err);
-    }
-    // respond to request comfing user creation
-    res.status(200).send(post._id);
-  });
-};
-
-/*
-** Takes incoming body and updates existing post
-*/
 exports.update = (req, res, next) => {
   // get post id
   const postId = req.params.id;
@@ -67,28 +168,13 @@ exports.update = (req, res, next) => {
   // find by Id and Update Post
   Post.findByIdAndUpdate({ _id: postId }, postProps)
     .then(() => Post.findById({ _id: postId }))
-    .then(post => res.send({ message: "saved" }))
+    .then(post => res.send({ message: "success" }))
     .catch(next);
 };
 
-/*
-** Takes incoming body and updates existing post
-*/
-exports.getOne = (req, res, next) => {
-  // get post id
-  const postId = req.params.id;
+/********************************DELETING A POST**********************************/
+// Handles DELETE /api/post/:id requests returns 204 status and the null post?
 
-  // find by Id and Delete Post
-  Post.findOne({ _id: postId })
-    .then(post => {
-      res.status(200).send(post.content);
-    })
-    .catch(next);
-};
-
-/*
-** Takes incoming body and updates existing post
-*/
 exports.delete = (req, res, next) => {
   // get post id
   const postId = req.params.id;
@@ -97,38 +183,4 @@ exports.delete = (req, res, next) => {
   Post.findByIdAndRemove({ _id: postId })
     .then(post => res.status(204).send(post))
     .catch(next);
-};
-
-/**
- * Searches through the Post collection
- * based on criteria object {category , tag , draft}, sortOn
- * returns an array of posts
- */
-
-exports.search = (req, res, next) => {
-  Post.find(buildQuery(req.query))
-    .sort({ createdOn: 1 })
-    .then(results => {
-      res.send(results);
-    });
-};
-
-const buildQuery = criteria => {
-  const query = {};
-
-  if (criteria.category) {
-    query.category = {
-      $in: criteria.category
-    };
-  }
-
-  if (criteria.tag) {
-    query.tags = { $elemMatch: { $eq: criteria.tag } };
-  }
-
-  if (criteria.draft) {
-    query.draft = { $eq: criteria.draft };
-  }
-
-  return query;
 };

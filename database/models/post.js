@@ -1,7 +1,15 @@
+/* The POST COLLECTION
+** Stores all post content necessary to list, edit & render a post
+** Not sure what the implications of storing large strings in the
+** raw & html properties will be on performance - but I decided
+** to go with this data structure b/c its simpler to manager and
+** work with
+*/
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const settings = require("../../keys/settings");
 
+// Store title, tags, createdOn, publishedOn, category, slug, draft, raw, html, toc
 const PostSchema = new Schema({
   title: {
     type: String,

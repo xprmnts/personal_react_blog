@@ -1,15 +1,14 @@
-// Moongose ORM/ODM abstracts many of the functions
-// we need to interface with the database
+/* The USER COLLECTION
+** For the immediate purpose there is little justification for creating
+** this collection b/c this will be a single user application and I could
+** have just stored the password in a server env variable. But having
+** this collection makes it easy to manage password updates, and migration
+** in the future...or so I believe at the moment.
+*/
 const mongoose = require("mongoose");
-
-// the Schema property helps us map a schema to a mongodb collection
 const Schema = mongoose.Schema;
-
 // bcyrpt is an encryption module used to hash user passwords
 const bcrypt = require("bcrypt-nodejs");
-
-// Define the user model
-// we'll use username, password, name & admin
 const userSchema = new Schema({
   username: { type: String, unique: true, lowercase: true },
   password: String,

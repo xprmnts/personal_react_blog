@@ -4,16 +4,11 @@ import * as actions from "../../actions";
 
 class Dashboard extends Component {
   onCreate() {
-    this.props.createPost(() => {
-      console.log("Post Created");
-      this.props.initNewEditor();
-      const { _id } = this.props.workspace;
-      if (_id) {
-        this.props.history.push(`/cms/compose/${_id}`);
-      }
+    this.props.createPostNew(id => {
+      this.props.initEditorState();
+      this.props.history.push(`/cms/compose/${id}`);
     });
   }
-  onEdit() {}
   render() {
     return (
       <div>

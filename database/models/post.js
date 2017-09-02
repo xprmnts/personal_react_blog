@@ -29,20 +29,24 @@ const PostSchema = new Schema({
     default: "notes"
   },
   slug: {
-    type: String
+    type: String,
+    default: null
   },
   draft: {
     type: Boolean,
     default: true
   },
   raw: {
-    type: String
+    type: String,
+    default: null
   },
   html: {
-    type: String
+    type: String,
+    default: null
   },
   toc: {
-    type: String
+    type: String,
+    default: null
   }
 });
 

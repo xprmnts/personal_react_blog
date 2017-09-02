@@ -15,10 +15,10 @@ router.use(function timeLog(req, res, next) {
 ******************************************************************************/
 
 // get posts for rendering on homepage, category or tag pages + admin dashboard
-router.get("/api/post", PostOps.search);
+router.get("/post", PostOps.search);
 
 // get a single post for viewing only
-router.get("/api/post/:slug", PostOps.getViewablePost);
+router.get("/post/:slug", PostOps.getViewablePost);
 
 /******************************************************************************
 ** --------------------- ADMIN API ROUTES-------------------------------------
@@ -27,15 +27,15 @@ router.get("/api/post/:slug", PostOps.getViewablePost);
 /********TODO: ENSURE the below api routes all require authentication ********/
 
 // create a new post
-router.post("/api/post", PostOps.create);
+router.post("/post", PostOps.create);
 
 // get editable post for loading into admin workspace/editor
-router.get("/api/post/:id", PostOps.getEditablePost);
+router.get("/post/edit/:id", PostOps.getEditablePost);
 
 // update a post, save a post or publish a post
-router.put("/api/post/:id", PostOps.update);
+router.put("/post/:id", PostOps.update);
 
 // delete a post
-router.delete("/api/post/:id", PostOps.update);
+router.delete("/post/:id", PostOps.update);
 
 module.exports = router;

@@ -72,7 +72,7 @@ exports.getViewablePost = (req, res, next) => {
 
 /*************************EDITING A SIGNLE POST*******************************/
 
-// This query handles GET/api/post/slug type requests
+// This query handles GET/api/post/id type requests
 // Returns one post, everything except the raw editable data
 // TODO: Ensure request fails if post is in draft mode
 exports.getEditablePost = (req, res, next) => {

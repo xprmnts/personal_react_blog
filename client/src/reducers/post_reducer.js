@@ -6,20 +6,20 @@ import {
   GET_POST_PREVIEW,
   POST_ERROR
 } from "../actions/types";
-export default function(state = {}, { type, postObject, error }) {
-  switch (type) {
+export default function(state = {}, actions) {
+  switch (actions.type) {
     case CREATE_POST_NEW:
-      return { ...state, workspace: postObject };
+      return { ...state, workspace: actions.payload };
     case UPDATE_POST_META:
-      return { ...state, workspace: postObject };
+      return { ...state, workspace: actions.payload };
     case UPDATE_POST_OBJECT:
-      return { ...state, workspace: postObject };
+      return { ...state, workspace: actions.payload };
     case GET_POST_VIEWABLE:
-      return { ...state, viewspace: postObject };
+      return { ...state, viewspace: actions.payload };
     case GET_POST_PREVIEW:
-      return { ...state, viewspace: postObject };
+      return { ...state, viewspace: actions.payload };
     case POST_ERROR:
-      return { ...state, error: error };
+      return { ...state, error: actions.error };
     default:
       return state;
   }

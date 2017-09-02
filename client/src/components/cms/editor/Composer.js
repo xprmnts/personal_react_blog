@@ -5,24 +5,21 @@ import * as actions from "../../../actions";
 
 class Composer extends Component {
   componentDidMount() {
-    if (!this.props.post) {
+    if (!this.props.workspace) {
       const postId = this.props.match.params.id;
-      this.props.getOldEditor(postId, () => {
-        console.log(this.props.post);
-      });
+      this.props.getEditorState(postId, () => {});
     }
   }
   onChange = editorState => {
-    console.log(this.props);
     this.props.updateEditorState(editorState);
     this.saveContent(editorState);
   };
 
   saveContent = editorState => {
-    const postId = this.props.match.params.id;
+    const postId = this.props.workspace._id;
     const contentState = editorState.getCurrentContent();
     const content = JSON.stringify(convertToRaw(contentState));
-    this.props.saveEditorContent(postId, content);
+    this.props.saveEditorState(postId, content);
   };
 
   render() {
@@ -42,8 +39,8 @@ class Composer extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
+    workspace: state.post.workspace,
     editorState: state.editor.editorState
   };
 }

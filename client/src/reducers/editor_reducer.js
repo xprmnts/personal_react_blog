@@ -4,7 +4,7 @@ import {
   UPDATE_EDITOR_STATE,
   SAVE_EDITOR_STATE
 } from "../actions/types";
-import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import { EditorState, convertFromRaw } from "draft-js";
 
 export default function(state = {}, action) {
   switch (action.type) {
@@ -14,7 +14,7 @@ export default function(state = {}, action) {
       return {
         ...state,
         editorState: EditorState.createWithContent(
-          convertFromRaw(action.payload)
+          convertFromRaw(JSON.parse(action.payload.raw))
         )
       };
     case UPDATE_EDITOR_STATE:

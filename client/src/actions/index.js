@@ -10,12 +10,13 @@ import {
   UPDATE_EDITOR_STATE,
   SAVE_EDITOR_STATE,
   EDITOR_ERROR,
-  CREATE_POST_NEW
+  CREATE_POST_NEW,
+  POST_ERROR
   //UPDATE_POST_META,
   //UPDATE_POST_OBJECT,
   //POST_ACTION_ERROR,
   //GET_POST_VIEWABLE,
-  //GET_POST_PREVIEW
+  //GET_POST_PREVIEW,
 } from "./types";
 const ROOT_URL = "http://localhost:8080"; //TODO: abstract root to config keys
 
@@ -121,8 +122,6 @@ export function createPostNew(callback) {
           type: CREATE_POST_NEW,
           payload: response.data
         });
-
-        // redirect to /cms // maybe able to use state property.... instead of callback...
         callback(response.data._id);
       })
       .catch(() => {
@@ -160,7 +159,7 @@ export function initEditorState() {
 export function getEditorState(id) {
   return function(dispatch) {
     axios
-      .get(`${ROOT_URL}/api/post/${id}`)
+      .get(`${ROOT_URL}/api/post/edit/${id}`)
       .then(response => {
         dispatch({
           type: GET_EDITOR_STATE,
@@ -168,7 +167,7 @@ export function getEditorState(id) {
         });
       })
       .catch(response => {
-        console.log(response.data);
+        console.log(response);
       });
   };
 }
@@ -185,10 +184,10 @@ export function updateEditorState(editorState) {
   };
 }
 
-export function saveEditorState(id, content) {
+export function saveEditorState(id, raw) {
   return function(dispatch) {
     axios
-      .put(`${ROOT_URL}/api/post/${id}`, { content })
+      .put(`${ROOT_URL}/api/post/${id}`, { raw })
       .then(response => {
         dispatch({
           type: SAVE_EDITOR_STATE,

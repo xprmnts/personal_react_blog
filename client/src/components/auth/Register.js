@@ -30,7 +30,7 @@ class Register extends Component {
   onFormSubmit(values) {
     this.props.registerUser(values, success => {
       if (success) {
-        this.props.history.push("/cms");
+        this.props.history.push("/dash");
       }
     });
   }

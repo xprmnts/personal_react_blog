@@ -20,7 +20,7 @@ class Signin extends Component {
   onFormSubmit(values) {
     this.props.signinUser(values, success => {
       if (success) {
-        this.props.history.push("/cms");
+        this.props.history.push("/dash");
       }
     });
   }

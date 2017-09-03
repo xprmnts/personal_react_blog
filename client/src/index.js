@@ -11,7 +11,7 @@ import reducers from "./reducers";
 const createStoreWithMiddleWare = applyMiddleware(reduxThunk)(createStore);
 const store = createStoreWithMiddleWare(reducers);
 const token = localStorage.getItem("token");
-// if we have a token programatically route to cms/dashboard
+// if we have a token programatically route to dash
 if (token) {
   store.dispatch({
     type: AUTH_USER

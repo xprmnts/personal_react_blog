@@ -13,7 +13,6 @@ const root_route = require("./routes/root_route");
 
 //DB Setup
 mongoose.connect(config.mongoURI);
-
 // initialize an express app object this app object will be used to handle
 // incoming network requests
 const app = (module.exports = express());

@@ -14,7 +14,7 @@ export default function(state = {}, action) {
       return {
         ...state,
         editorState: EditorState.createWithContent(
-          convertFromRaw(JSON.parse(action.payload.raw))
+          convertFromRaw(action.payload)
         )
       };
     case UPDATE_EDITOR_STATE:

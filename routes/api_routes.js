@@ -30,6 +30,9 @@ router.get("/post/:slug", PostOps.getViewablePost);
 router.post("/post", PostOps.create);
 
 // get editable post for loading into admin workspace/editor
+router.get("/post/meta/:id", PostOps.getPostMeta);
+
+// get editable post for loading into admin workspace/editor
 router.get("/post/edit/:id", PostOps.getEditablePost);
 
 // update a post, save a post or publish a post

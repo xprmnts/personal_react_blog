@@ -2,6 +2,7 @@ import {
   CREATE_POST_NEW,
   UPDATE_POST_META,
   UPDATE_POST_OBJECT,
+  GET_POST_META,
   GET_POST_VIEWABLE,
   GET_POST_PREVIEW,
   POST_ERROR
@@ -11,6 +12,8 @@ export default function(state = {}, actions) {
     case CREATE_POST_NEW:
       return { ...state, workspace: actions.payload };
     case UPDATE_POST_META:
+      return { ...state, workspace: actions.payload };
+    case GET_POST_META:
       return { ...state, workspace: actions.payload };
     case UPDATE_POST_OBJECT:
       return { ...state, workspace: actions.payload };

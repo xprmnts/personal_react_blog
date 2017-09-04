@@ -75,7 +75,7 @@ exports.getViewablePost = (req, res, next) => {
 // This query handles GET/api/post/id type requests
 // Returns one post, everything except the raw editable data
 // TODO: Ensure request fails if post is in draft mode
-exports.getEditablePost = (req, res, next) => {
+exports.getPostMeta = (req, res, next) => {
   const { id } = req.params;
 
   Post.findOne(
@@ -87,12 +87,33 @@ exports.getEditablePost = (req, res, next) => {
       publishedOn: 1,
       category: 1,
       slug: 1,
-      draft: 1,
-      raw: 1
+      draft: 1
     }
   )
     .then(post => {
       res.send(post);
+    })
+    .catch(err => {
+      next(err);
+    });
+};
+
+/*************************EDITING A SIGNLE POST*******************************/
+
+// This query handles GET/api/post/id type requests
+// Returns one post, everything except the raw editable data
+// TODO: Ensure request fails if post is in draft mode
+exports.getEditablePost = (req, res, next) => {
+  const { id } = req.params;
+
+  Post.findOne(
+    { _id: id },
+    {
+      raw: 1
+    }
+  )
+    .then(post => {
+      res.send(post.raw);
     })
     .catch(err => {
       next(err);

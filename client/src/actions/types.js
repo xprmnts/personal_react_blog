@@ -16,6 +16,7 @@ export const EDITOR_ERROR = "editor_error";
 
 /*********************** POST STATE ACTION TYPES *****************************/
 export const CREATE_POST_NEW = "create_post_new"; // use for just meta updates
+export const GET_POST_META = "get_post_meta"; // use for just meta updates
 export const UPDATE_POST_META = "update_post_meta"; // use for just meta updates
 export const UPDATE_POST_OBJECT = "update_post_object"; // use for publishing or meta+editor updates
 export const GET_POST_VIEWABLE = "get_post_viewable";

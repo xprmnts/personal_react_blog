@@ -6,6 +6,7 @@ import {
   //GET_LIST,
   //LIST_ERROR,
   INIT_EDITOR_STATE,
+  GET_POST_META,
   GET_EDITOR_STATE,
   UPDATE_EDITOR_STATE,
   SAVE_EDITOR_STATE,
@@ -105,7 +106,7 @@ export function authError(error) {
 /******************************************************************************
 ** --------------------- POST STATE ACTIONS -------------------------------
 ******************************************************************************/
-//1) CREATE NEW POST, 2) UPDATE POST META, 3) UPDATE POST FULL 4) POST ACTION ERROR
+//1) CREATE NEW POST, 2) GET POST META, 3) UPDATE POST FULL 4) POST ACTION ERROR
 
 // When an admin clicks create, trigger this a function, the end result is that
 // the state will now contain a post object, the call back should contain the post id
@@ -128,6 +129,28 @@ export function createPostNew(callback) {
         // if fail set state to unauth
         dispatch(postError("Error Creating Post"));
         // show errror
+        callback(false);
+      });
+  };
+}
+
+export function getPostMeta(id, callback) {
+  // return a function from our action creator
+  return function(dispatch) {
+    // submit username/password to server
+    axios
+      .get(`${ROOT_URL}/api/post/meta/${id}`)
+      .then(response => {
+        // if success store payload(the id of the post)
+        dispatch({
+          type: GET_POST_META,
+          payload: response.data
+        });
+        callback(true);
+      })
+      .catch(() => {
+        // if fail set state to unauth
+        dispatch(postError("Error Getting Post"));
         callback(false);
       });
   };

@@ -29,11 +29,14 @@ app.use(cors());
 app.use(bodyParser.json({ type: "*/*" }));
 
 // user modular routes to handle different aspects of application
-app.use("/", root_route);
+// app.use("/", root_route);
 app.use("/auth", auth_routes);
 app.use("/api", api_routes);
 
-if (process.env.NODE_ENV === "production") {
+if (
+  process.env.NODE_ENV === "staging" ||
+  process.env.NODE_ENV === "production"
+) {
   app.use(express.static("client/build"));
 
   const path = require("path");

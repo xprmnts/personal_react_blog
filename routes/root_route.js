@@ -5,8 +5,8 @@ router.use(function timeLog(req, res, next) {
   next();
 });
 
-router.get("/", function(req, res) {
-  res.send({ hi: "there" });
-});
+// router.get("/", function(req, res) {
+//   res.send({ hi: "there" });
+// });
 
 module.exports = router;
